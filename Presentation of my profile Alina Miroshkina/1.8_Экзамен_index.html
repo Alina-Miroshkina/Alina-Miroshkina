@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="eu">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./style.css">
+  <title>Profile</title>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #dc2626;
+      --text-color: #1f2937;
+      --light-gray: #f3f4f6;
+      --medium-gray: #e5e7eb;
+      --dark-gray: #6b7280;
+      --border-radius: 8px;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--light-gray);
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    header, main, footer {
+      margin-bottom: 2rem;
+    }
+
+    h1 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    h2, h3 {
+      color: var(--secondary-color);
+      margin: 1.5rem 0 1rem;
+      font-weight: 600;
+    }
+
+    p, li {
+      margin-bottom: 1rem;
+    }
+
+    hr {
+      border: 0;
+      height: 1px;
+      background-color: var(--medium-gray);
+      margin: 2rem 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+      box-shadow: var(--shadow);
+      background: white;
+      border-radius: var(--border-radius);
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 12px 15px;
+      text-align: left;
+      border-bottom: 1px solid var(--medium-gray);
+    }
+
+    th {
+      background-color: var(--primary-color);
+      color: white;
+      font-weight: 600;
+    }
+
+    tr:nth-child(even) {
+      background-color: var(--light-gray);
+    }
+
+    tr:hover {
+      background-color: rgba(37, 99, 235, 0.1);
+    }
+
+    img {
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin: 1rem 0;
+      border: 2px solid white;
+      transition: var(--transition);
+    }
+
+    img:hover {
+      transform: scale(1.02);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      display: inline-block;
+      margin: 0.5rem 0;
+    }
+
+    a:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+
+    form, .skills-chart {
+      background: white;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      margin: 1.5rem 0;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0 1.5rem;
+      border: 1px solid var(--medium-gray);
+      border-radius: var(--border-radius);
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+    }
+
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--border-radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style: none;
+      background: white;
+      padding: 1.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+    }
+
+    li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--light-gray);
+      position: relative;
+      padding-left: 1.5rem;
+    }
+
+    li:last-child {
+      border-bottom: none;
+    }
+
+    li::before {
+      content: "•";
+      color: var(--primary-color);
+      font-weight: bold;
+      position: absolute;
+      left: 0;
+    }
+
+    .highlight {
+      color: var(--accent-color);
+      font-weight: 600;
+    }
+
+    .loader {
+      display: none;
+      border: 4px solid var(--medium-gray);
+      border-top: 4px solid var(--primary-color);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 1rem auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 1rem;
+      background: var(--primary-color);
+      color: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow);
+      transform: translateX(150%);
+      transition: transform 0.3s ease;
+      z-index: 1000;
+    }
+
+    .notification.show {
+      transform: translateX(0);
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      form, ul, table, .skills-chart {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Testing my HTML knowledge</h1>
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <th>Name </th>
+            <th>Surname</th>
+            <th>Nickname</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Alina</td>
+            <td>Miroshkina</td>
+            <td>OdessaHome</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </header>
+  <main>
+    <p>Frontend Web Development (Junior)
+      Alina-Miroshkina!</p>
+      <div class="resume-section">
+        <h2>My Resume:</h2>
+        <img src="./Img/Снимок экрана 2024-06-23 162010.png" alt="Резюме Алины Мирошкиной">
+        <img src="./Img/11.png" alt="Резюме Алины Мирошкиной">
+        <img src="./Img/12.png" alt="Резюме Алины Мирошкиной">
+        
+       
+      </div>
+    <hr>
+    <p> Presentation of my profile . <b><span class="highlight"></span></b>In my free time, I enjoy web design, photography, and training Dobermans and am eager to contribute to innovative projects in the tech industry.
+      </p>
+    <hr>
+   
+    <hr>
+    <section>
+      <h2>Profile photo:</h2>
+      <img src="./Img/263228248_754339919302223_3346916548367705817_n.jpg" width="150" alt="Фото Alina">
+      <a href="https://www.shecodes.io/graduates/51732-alina-miroshkina">Мои сертификаты :</a>
+      <hr>
+      <div class="image-container"></div>
+      
+      <img src="./Img/89828.png" alt="VALID CERTIFICATE ID
+d10edbc6436c328050827e3bd669f02f">
+<img src="./Img/95297.png" alt="VALID CERTIFICATE ID
+40e30628888d11ed1b41db1ed38e7638">
+  <img src="./Img/1.png" alt="Описание изображения 1">
+  <img src="./Img/2.png" alt="Описание изображения 2">
+  <img src="./Img/3..png" alt="Описание изображения 2">
+  <img src="./Img/4.png" alt="Описание изображения 1">
+  <img src="./Img/5.png" alt="Описание изображения 2">
+  <img src="./Img/6.png" alt="Описание изображения 2">
+  <img src="./Img/7.jpg" alt="Описание изображения 2">
+  <img src="./Img/8.jpg" alt="Описание изображения 2">
+  <img src="./Img/9.jpg" alt="Описание изображения 2">
+    </section>
+  </div>
+    <hr>
+    <section>
+      <h3>leave your personal contacts and I will call you back</h3>
+      <form action="#">
+        <p><label for="name">Name :</label></p>
+        <input type="text" id="name" placeholder="Введите ваше имя">
+        <p><label for="comment">Name Comment:</label></p>
+        <textarea id="comment" rows="4" placeholder="Ваше сообщение"></textarea>
+        <p><button type="submit">Send</button></p>
+      </form>
+    </section>
+    <hr>
+    <section>
+      <h3>My skills:</h3>
+      <ul id="skills-list">
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>JS</li>
+        <li>React</li>
+        <li>Node.js</li>
+      </ul>
+      <div class="skills-chart" id="skills-chart"></div>
+    </section>
+  </main>
+  <footer>
+    <div class="loader" id="loader"></div>
+    <div class="notification" id="notification"></div>
+  </footer>
+
+  <script>
+    const loader = document.getElementById('loader');
+    const notification = document.getElementById('notification');
+    const form = document.querySelector('form');
+    const skillsList = document.getElementById('skills-list');
+    const profileImg = document.querySelector('img');
+
+    function showLoader() {
+      loader.style.display = 'block';
+    }
+
+    function hideLoader() {
+      loader.style.display = 'none';
+    }
+
+    function showNotification(message, type = 'info') {
+      notification.textContent = message;
+      notification.style.backgroundColor = type === 'error' ? 'var(--accent-color)' : 'var(--primary-color)';
+      notification.classList.add('show');
+
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nameInput = document.getElementById('name');
+      const commentInput = document.getElementById('comment');
+
+      if (!nameInput.value.trim()) {
+        showNotification('Пожалуйста, введите ваше имя', 'error');
+        nameInput.focus();
+        return;
+      }
+
+      if (!commentInput.value.trim()) {
+        showNotification('Пожалуйста, введите комментарий', 'error');
+        commentInput.focus();
+        return;
+      }
+
+      showLoader();
+
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        showNotification('Ваше сообщение успешно отправлено!');
+        form.reset();
+      } catch (error) {
+        showNotification('Произошла ошибка при отправке', 'error');
+        console.error('Ошибка:', error);
+      } finally {
+        hideLoader();
+      }
+    });
+
+    function addSkill(skill) {
+      const li = document.createElement('li');
+      li.textContent = skill;
+      li.style.opacity = '0';
+      skillsList.appendChild(li);
+
+      setTimeout(() => {
+        li.style.transition = 'opacity 0.5s ease';
+        li.style.opacity = '1';
+      }, 10);
+    }
+
+    skillsList.addEventListener('click', (e) => {
+      if (e.target.tagName === 'LI') {
+        e.target.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        e.target.style.opacity = '0';
+        e.target.style.transform = 'translateX(-100%)';
+
+        setTimeout(() => {
+          e.target.remove();
+        }, 300);
+      }
+    });
+
+    async function fetchSkillsData() {
+      showLoader();
+
+      try {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        const skillsData = [
+          { skill: 'HTML', level: 90 },
+          { skill: 'CSS', level: 85 },
+          { skill: 'JavaScript', level: 75 },
+          { skill: 'React', level: 70 },
+          { skill: 'Node.js', level: 65 }
+        ];
+
+        renderSkillsChart(skillsData);
+      } catch (error) {
+        showNotification('Не удалось загрузить данные', 'error');
+        console.error('Ошибка загрузки данных:', error);
+      } finally {
+        hideLoader();
+      }
+    }
+
+    function renderSkillsChart(data) {
+      const chartContainer = document.getElementById('skills-chart');
+      chartContainer.innerHTML = `
+        <div style="padding: 1rem; text-align: center;">
+          <h4>Уровень навыков (моковые данные)</h4>
+          <div style="margin-top: 1rem;">
+            ${data.map(item => `
+              <div style="margin-bottom: 0.5rem;">
+                <div style="display: flex; justify-content: space-between; margin-bottom: 0.2rem;">
+                  <span>${item.skill}</span>
+                  <span>${item.level}%</span>
+                </div>
+                <div style="height: 10px; background: var(--medium-gray); border-radius: 5px;">
+                  <div style="width: ${item.level}%; height: 100%; background: var(--primary-color); border-radius: 5px;"></div>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+          <p style="margin-top: 1rem; color: var(--dark-gray); font-size: 0.8rem;">
+            В реальном проекте здесь был бы интерактивный график с использованием Chart.js
+          </p>
+        </div>
+      `;
+    }
+
+    profileImg.draggable = true;
+    profileImg.addEventListener('dragstart', (e) => {
+      e.dataTransfer.setData('text/plain', profileImg.src);
+    });
+
+    document.addEventListener('dragover', (e) => {
+      e.preventDefault();
+    });
+
+    document.addEventListener('drop', (e) => {
+      e.preventDefault();
+      if (e.target.tagName === 'IMG') {
+        const data = e.dataTransfer.getData('text/plain');
+        if (data) {
+          e.target.src = data;
+          showNotification('Изображение профиля изменено');
+        }
+      }
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchSkillsData();
+
+      document.addEventListener('keypress', (e) => {
+        if (e.target.id === 'name' && e.key === 'Enter') {
+          const newSkill = prompt('Введите новый навык:');
+          if (newSkill && newSkill.trim()) {
+            addSkill(newSkill.trim());
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>

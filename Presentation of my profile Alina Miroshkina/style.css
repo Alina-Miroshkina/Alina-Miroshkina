@@ -1,0 +1,56 @@
+.image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 20px;
+}
+
+img {
+  width: 300px;
+  height: 250px;
+  object-fit: scale-down;
+
+  border-radius: 8px;
+  transition: all 0.5s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* Эффект переключения при наведении */
+.image-container:hover img:not(:hover) {
+  opacity: 0.7;
+  filter: grayscale(30%);
+  transform: scale(0.95);
+}
+.resume-section {
+  text-align: left;
+  margin: 2rem 0;
+}
+
+.resume-section img {
+  display: flex;
+  flex-direction: row; /* Выравнивание элементов в строку */
+  align-items: flex-start; /* Выравнивание по верхнему краю контейнера */
+  justify-content: flex-start; /* Выравнивание элементов слева */
+  gap: 10px; /* Расстояние между элементами */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #f0f0f0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex: 0 1 auto; /* Элементы не растягиваются, занимают только необходимое пространство */
+  width: 100%;
+  height: 50%;
+}
+
